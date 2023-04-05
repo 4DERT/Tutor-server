@@ -1,0 +1,42 @@
+Database structure:
+
+announcements:
+    id: autoincrement
+    announcer: id from users
+    date: date (?)
+    subject: id from subjects
+    price: double
+    is_negotiable: boolean
+    title: Text
+    description: Text
+    localisation: Text 
+    views: INT (?)
+
+
+users:
+    id: autoincrement
+    name: Text
+    surname: Text
+    phone: Text
+    email: Text
+    description: Text
+    photo: BLOB / BINARY / RAW (?)
+    last_online: date (?)
+
+
+comments:
+    id: autoincrement
+    announcement_id: id from announcements
+    commentator: id from users
+    comment: Text
+    grade: INT 0 - 5
+
+# pomocnicze bazy 
+
+subjects: (?)
+    id: autoincrement
+    subject: Text
+
+
+localisations:
+    id: autoincremetn
