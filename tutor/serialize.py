@@ -15,7 +15,7 @@ def get_announcements():
             'announcer_surname': obj.author.surname,
             'announcer_email': obj.author.email,
             'announcer_phone': obj.author.phone,
-            'subject': obj.subject.type,
+            'subject': obj.subject.subject,
             'location': obj.location.location
         } for obj in Announcement.query.all()
     ]
@@ -23,3 +23,7 @@ def get_announcements():
 
 def get_locations():
     return [l.location for l in Location.query.all()]
+
+
+def get_subjects():
+    return [s.subject for s in Subject.query.all()]

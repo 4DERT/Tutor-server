@@ -4,12 +4,12 @@ from . import db
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(100), unique=True, nullable=False)
+    subject = db.Column(db.String(100), unique=True, nullable=False)
 
     announcements = db.relationship('Announcement', backref='subject', lazy=True)
 
     def __repr__(self):
-        return f"Subject('{self.id}', '{self.type}')"
+        return f"Subject('{self.id}', '{self.subject}')"
 
 
 class Location(db.Model):

@@ -22,6 +22,9 @@ def init_localisations():
         "zachodniopomorskie",
     ]
 
+    if db.session.query(Location).count() == len(locations):
+        return
+
     for l in locations:
         loc = Location(location=l)
         db.session.add(loc)
@@ -39,8 +42,11 @@ def init_subjects():
         "chemia"
     ]
 
+    if db.session.query(Subject).count() == len(subjects):
+        return
+
     for subject in subjects:
-        sub = Subject(type=subject)
+        sub = Subject(subject=subject)
         db.session.add(sub)
 
     db.session.commit()
@@ -50,3 +56,13 @@ def create_db():
     db.create_all()
     init_localisations()
     init_subjects()
+
+
+def insert_announcement(announcement: Announcement):
+    db.session.add(announcement)
+    db.session.commit()
+
+
+def insert_user(user: User):
+    db.session.add(user)
+    db.session.commit()

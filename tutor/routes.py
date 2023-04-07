@@ -1,10 +1,7 @@
-import http.client
-
-import flask
-
-from . import app, db
+from . import app
+from .database import insert_announcement, insert_user
 from .models import Announcement, User, Subject, Location
-from flask import jsonify, request
+from flask import jsonify, request, abort
 
 from .serialize import get_announcements, get_locations
 
@@ -30,13 +27,33 @@ def new_announcement():
             price=data['price'],
             is_negotiable=data['is_negotiable'],
             user_id=User.query.filter_by(username=data['announcer_username']).first().id,
-            subject_id=Subject.query.filter_by(type=data['subject']).first().id,
+            subject_id=Subject.query.filter_by(subject=data['subject']).first().id,
             location_id=Location.query.filter_by(location=data['location']).first().id
         )
 
-        db.session.add(announcement)
-        db.session.commit()
+        insert_announcement(announcement)
         return "ok"  # TODO
 
     except (AttributeError, KeyError) as error:
-        return flask.abort(400)
+        return abort(400)
+
+
+@app.route("/sign_up", methods=["POST"])
+def sign_up():
+    data = request.get_json(force=True)
+
+    try:
+        user = User(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],
+            name=data['name'],
+            surname=data['surname'],
+            phone=data['phone']
+        )
+
+        insert_user(user)
+        return "ok"  # TODO
+
+    except (AttributeError, KeyError) as error:
+        return abort(400)
