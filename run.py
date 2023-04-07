@@ -1,10 +1,10 @@
 from tutor import app, db
 from tutor.database import create_db
+from tutor.serialize import get_announcements
 from tutor.models import Announcement, User, Localisation, Subject
 
 
 def test_db():
-
     create_db()
 
     print(Subject.query.get(1))
@@ -46,8 +46,12 @@ def test_db():
     print("Announcement_2 author:")
     print(announcement_2.author)
 
-    db.drop_all()
+    print()
+    print(get_announcements())
+
+    # db.drop_all()
 
 
 if __name__ == '__main__':
-    test_db()
+    # test_db()
+    app.run(port=8080, debug=True)

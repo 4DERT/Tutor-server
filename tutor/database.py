@@ -1,4 +1,5 @@
-from . import models, db
+from . import db
+from .models import Announcement, Localisation, Subject, User
 
 
 def init_localisations():
@@ -22,7 +23,7 @@ def init_localisations():
     ]
 
     for localisation in localisations:
-        loc = models.Localisation(localisation=localisation)
+        loc = Localisation(localisation=localisation)
         db.session.add(loc)
 
     db.session.commit()
@@ -39,7 +40,7 @@ def init_subjects():
     ]
 
     for subject in subjects:
-        sub = models.Subject(subject=subject)
+        sub = Subject(type=subject)
         db.session.add(sub)
 
     db.session.commit()
