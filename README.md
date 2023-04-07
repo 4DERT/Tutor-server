@@ -33,3 +33,10 @@ POST method
   "location": "podkarpackie"
 }
 ```
+
+## To do
+ - [ ] user sesions and log in
+ - [ ] password hash
+ - [ ] announcements filtering
+ - [ ] user info endpoint
+ - [ ] and more...
