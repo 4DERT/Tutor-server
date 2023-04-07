@@ -1,10 +1,14 @@
 # Tutor app server
 
 # Enpoints
-/ - return all avaible announcments 
-/locations - return avaible locations
+#### /
+GET, return all announcments
 
-/sign_up
+#### /locations
+GET avaible locations
+
+#### /sign_up
+POST method
 ```json
 {
     "username": "pijoter",
@@ -16,7 +20,8 @@
 }
 ```
 
-/new_announcement
+#### /new_announcement
+POST method
 ```json
 {
   "title": "Chemia do matury",
@@ -27,4 +32,4 @@
   "subject": "chemia",
   "location": "podkarpackie"
 }
-``
+```
