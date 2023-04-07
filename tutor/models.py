@@ -4,7 +4,7 @@ from . import db
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(100), nullable=False)
+    type = db.Column(db.String(100), unique=True, nullable=False)
 
     announcements = db.relationship('Announcement', backref='subject', lazy=True)
 
@@ -12,14 +12,14 @@ class Subject(db.Model):
         return f"Subject('{self.id}', '{self.type}')"
 
 
-class Localisation(db.Model):
+class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    localisation = db.Column(db.String(30), nullable=False)
+    location = db.Column(db.String(30), unique=True, nullable=False)
 
     announcements = db.relationship('Announcement', backref='location', lazy=True)
 
     def __repr__(self):
-        return f"Localisation('{self.id}', '{self.localisation}')"
+        return f"Location('{self.id}', '{self.locations}')"
 
 
 class User(db.Model):
@@ -48,7 +48,7 @@ class Announcement(db.Model):
     is_negotiable = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
-    localisation_id = db.Column(db.Integer, db.ForeignKey('localisation.id'), nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'), nullable=False)
 
     def __repr__(self):
         return f"Announcement('{self.id}', '{self.title}', '{self.date_posted}')"

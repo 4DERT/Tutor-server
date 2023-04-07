@@ -1,7 +1,7 @@
 from tutor import app, db
 from tutor.database import create_db
 from tutor.serialize import get_announcements
-from tutor.models import Announcement, User, Localisation, Subject
+from tutor.models import Announcement, User, Location, Subject
 
 
 def test_db():
@@ -24,7 +24,7 @@ def test_db():
                                   price=30,
                                   is_negotiable=True,
                                   subject_id=Subject.query.get(2).id,
-                                  localisation_id=Localisation.query.get(2).id)
+                                  location_id=Location.query.get(2).id)
 
     announcement_2 = Announcement(title="Matematyka do matury rozszerzonej",
                                   content="skuteczna nauka do matury rozszerzonej",
@@ -32,7 +32,7 @@ def test_db():
                                   price=30,
                                   is_negotiable=True,
                                   subject_id=Subject.query.get(1).id,
-                                  localisation_id=Localisation.query.get(1).id)
+                                  location_id=Location.query.get(1).id)
     db.session.add(announcement_1)
     db.session.add(announcement_2)
     db.session.commit()

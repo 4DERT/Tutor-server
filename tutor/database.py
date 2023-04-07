@@ -1,9 +1,9 @@
 from . import db
-from .models import Announcement, Localisation, Subject, User
+from .models import Announcement, Location, Subject, User
 
 
 def init_localisations():
-    localisations = [
+    locations = [
         "dolnośląskie",
         "kujawsko-pomorskie",
         "lubelskie",
@@ -22,8 +22,8 @@ def init_localisations():
         "zachodniopomorskie",
     ]
 
-    for localisation in localisations:
-        loc = Localisation(localisation=localisation)
+    for l in locations:
+        loc = Location(location=l)
         db.session.add(loc)
 
     db.session.commit()
