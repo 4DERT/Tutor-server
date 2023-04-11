@@ -20,6 +20,21 @@ POST method
 }
 ```
 
+### /login
+POST method
+
+user can be either an email or username
+```json
+{
+    "user": "pjoter12@demo.com",
+    "password": "qwerty"
+}
+```
+
+### /logout
+GET method
+
+
 #### /new_announcement
 POST method
 ```json
@@ -28,15 +43,20 @@ POST method
   "content": "Szbko i skutecznie naucze cię chemii do matury.",
   "price": 32,
   "is_negotiable": true,
-  "announcer_username": "pijoter",
   "subject": "chemia",
   "location": "podkarpackie"
 }
 ```
 
+### /my_account
+GET method
+
+Returns loged user info
+
 ## To do
- - [ ] user sesions and log in
- - [ ] password hash
+ - [x] user sesions and log in
+ - [x] password hash
  - [ ] announcements filtering
- - [ ] user info endpoint
+ - [x] loged user info endpoint
+ - [ ] other users info endpoint
  - [ ] and more...
