@@ -7,7 +7,17 @@ from .serialize import get_announcements, get_locations, get_user_data
 
 @app.route("/", methods=["GET"])
 def home():
-    return jsonify(get_announcements())
+
+    price_from = request.args.get("price_from")
+    price_to = request.args.get("price_to")
+    location = request.args.get("location")
+    subject = request.args.get("subject")
+    is_negotiable = request.args.get("is_negotiable")
+    date_posted_from = request.args.get("date_posted_from")
+    date_posted_to = request.args.get("date_posted_to")
+
+    return jsonify(get_announcements(price_from, price_to, location, subject,
+                                     is_negotiable, date_posted_from, date_posted_to))
 
 
 @app.route("/locations", methods=["GET"])
@@ -30,7 +40,7 @@ def new_announcement():
             content=data['content'],
             price=data['price'],
             is_negotiable=data['is_negotiable'],
-            user_id= user_id,
+            user_id=user_id,
             subject_id=Subject.query.filter_by(subject=data['subject']).first().id,
             location_id=Location.query.filter_by(location=data['location']).first().id
         )

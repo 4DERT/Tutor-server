@@ -4,6 +4,26 @@
 #### /
 GET, return all announcments
 
+You can filter announcements by adding GET parameters like:
+```
+?subject=informatyka
+```
+You can add multiple filters joing them using '&':
+```
+?subject=informatyka&price_from=10
+```
+
+All avaible filters:
+ - price_from
+ - price_to
+ - location
+ - subject
+ - is_negotiable
+ - date_posted_from
+ - date_posted_to
+
+Date format is: YYYY-mm-dd
+
 #### /locations
 GET avaible locations
 
@@ -48,7 +68,7 @@ POST method
 }
 ```
 
-### /my_account
+### /my_account  
 GET method
 
 Returns loged user info
@@ -61,7 +81,7 @@ Returns info about given user
 ## To do
  - [x] user sesions and log in
  - [x] password hash
- - [ ] announcements filtering
+ - [x] announcements filtering
  - [x] loged user info endpoint
  - [x] other users info endpoint
  - [ ] find better validation system, try...catch is bleh

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from . import db
 
 
@@ -42,7 +42,7 @@ class User(db.Model):
 class Announcement(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    date_posted = db.Column(db.Date, nullable=False, default=date.today())
     content = db.Column(db.String(1000), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     is_negotiable = db.Column(db.Boolean, nullable=False)
