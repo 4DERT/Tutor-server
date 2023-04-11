@@ -65,4 +65,5 @@ Returns info about given user
  - [x] loged user info endpoint
  - [x] other users info endpoint
  - [ ] find better validation system, try...catch is bleh
+ - [ ] find way to store user avatars in the db
  - [ ] and more...
