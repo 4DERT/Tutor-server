@@ -1,4 +1,4 @@
-from . import app
+from . import app, bcrypt
 from .database import insert_announcement, insert_user
 from .models import Announcement, User, Subject, Location
 from flask import jsonify, request, abort
@@ -42,11 +42,14 @@ def new_announcement():
 def sign_up():
     data = request.get_json(force=True)
 
+    # TODO: find better validation system
     try:
+        hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+
         user = User(
             username=data['username'],
             email=data['email'],
-            password=data['password'],
+            password=hashed_password,
             name=data['name'],
             surname=data['surname'],
             phone=data['phone']
