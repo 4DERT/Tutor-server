@@ -1,5 +1,5 @@
 from . import app, bcrypt, session
-from .database import insert_announcement, insert_user, get_user, get_user_by_id
+from .database import insert_announcement, insert_user, get_user, get_user_by_id, get_user_by_username
 from .models import Announcement, User, Subject, Location
 from flask import jsonify, request, abort
 from .serialize import get_announcements, get_locations, get_user_data
@@ -100,6 +100,13 @@ def dashboard():
         user = get_user_by_id(user_id)
 
         return jsonify(get_user_data(user))
+    else:
+        abort(400, "User not logged")
 
 
+@app.route("/user/<username>", methods=["GET"])
+def user_info(username: str):
+    user = get_user_by_username(username)
 
+    if user is not None:
+        return jsonify(get_user_data(user))

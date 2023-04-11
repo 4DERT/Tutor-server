@@ -87,3 +87,7 @@ def get_user(username_or_email: str, password: str) -> User | None:
 def get_user_by_id(user_id: int) -> User | None:
     user = db.session.query(User).filter(User.id == user_id).first()
     return user
+
+
+def get_user_by_username(username: str) -> User:
+    return db.session.query(User).filter(User.username == username).first()

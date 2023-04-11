@@ -53,10 +53,16 @@ GET method
 
 Returns loged user info
 
+### /user/*username*
+GET method
+
+Returns info about given user
+
 ## To do
  - [x] user sesions and log in
  - [x] password hash
  - [ ] announcements filtering
  - [x] loged user info endpoint
- - [ ] other users info endpoint
+ - [x] other users info endpoint
+ - [ ] find better validation system, try...catch is bleh
  - [ ] and more...
