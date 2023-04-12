@@ -86,4 +86,7 @@ Returns info about given user
  - [x] other users info endpoint
  - [ ] find better validation system, try...catch is bleh
  - [ ] find way to store user avatars in the db
+ - [ ] announcements sorting
+ - [ ] add ratings and reviews about users
+ - [ ] store SECRET_KEY in .env
  - [ ] and more...
