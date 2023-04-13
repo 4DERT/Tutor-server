@@ -89,4 +89,5 @@ Returns info about given user
  - [ ] announcements sorting
  - [ ] add ratings and reviews about users
  - [ ] store SECRET_KEY in .env
+ - [ ] announcements editing
  - [ ] and more...

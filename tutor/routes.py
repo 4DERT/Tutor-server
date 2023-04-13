@@ -1,8 +1,8 @@
 from . import app, bcrypt, session
 from .database import insert_announcement, insert_user, get_user, get_user_by_id, get_user_by_username
-from .models import Announcement, User, Subject, Location
+from .models import Announcement, User, Subject
 from flask import jsonify, request, abort
-from .serialize import get_announcements, get_locations, get_user_data
+from .serialize import get_announcements, get_user_data
 
 
 @app.route("/", methods=["GET"])
@@ -10,19 +10,13 @@ def home():
 
     price_from = request.args.get("price_from")
     price_to = request.args.get("price_to")
-    location = request.args.get("location")
     subject = request.args.get("subject")
     is_negotiable = request.args.get("is_negotiable")
     date_posted_from = request.args.get("date_posted_from")
     date_posted_to = request.args.get("date_posted_to")
 
-    return jsonify(get_announcements(price_from, price_to, location, subject,
+    return jsonify(get_announcements(price_from, price_to, subject,
                                      is_negotiable, date_posted_from, date_posted_to))
-
-
-@app.route("/locations", methods=["GET"])
-def locations():
-    return jsonify(get_locations())
 
 
 @app.route("/new_announcement", methods=["POST"])
@@ -42,7 +36,6 @@ def new_announcement():
             is_negotiable=data['is_negotiable'],
             user_id=user_id,
             subject_id=Subject.query.filter_by(subject=data['subject']).first().id,
-            location_id=Location.query.filter_by(location=data['location']).first().id
         )
 
         insert_announcement(announcement)

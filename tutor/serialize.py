@@ -1,21 +1,18 @@
-from .models import Announcement, Location, Subject, User
+from .models import Announcement, Subject, User
 from . import db
 
 
 def get_announcements(price_from: int | None,
                       price_to: int | None,
-                      location: str | None,
                       subject: str | None,
                       is_negotiable: bool | None,
                       date_posted_from: str | None,
                       date_posted_to: str | None):
 
     subject_id = Subject.query.filter_by(subject=subject).first().id if subject else None
-    location_id = Location.query.filter_by(location=location).first().id if location else None
 
     # filter_by
     filters_by = {
-        "location_id": location_id,
         "subject_id": subject_id,
         "is_negotiable": is_negotiable,
     }
@@ -47,7 +44,6 @@ def get_announcements(price_from: int | None,
             'announcer_email': obj.author.email,
             'announcer_phone': obj.author.phone,
             'subject': obj.subject.subject,
-            'location': obj.location.location
         } for obj in query
     ]
 
@@ -68,13 +64,8 @@ def get_user_data(user: User):
             'price': obj.price,
             'is_negotiable': obj.is_negotiable,
             'subject': obj.subject.subject,
-            'location': obj.location.location
         } for obj in user.announcements]
     }
-
-
-def get_locations():
-    return [l.location for l in Location.query.all()]
 
 
 def get_subjects():

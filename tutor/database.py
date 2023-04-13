@@ -1,36 +1,6 @@
 from . import db, bcrypt
-from .models import Announcement, Location, Subject, User
+from .models import Announcement, Subject, User
 import re
-
-
-def init_localisations():
-    locations = [
-        "dolnośląskie",
-        "kujawsko-pomorskie",
-        "lubelskie",
-        "lubuskie",
-        "łódzkie",
-        "małopolskie",
-        "mazowieckie",
-        "opolskie",
-        "podkarpackie",
-        "podlaskie",
-        "pomorskie",
-        "śląskie",
-        "świętokrzyskie",
-        "warmińsko-mazurskie",
-        "wielkopolskie",
-        "zachodniopomorskie",
-    ]
-
-    if db.session.query(Location).count() == len(locations):
-        return
-
-    for l in locations:
-        loc = Location(location=l)
-        db.session.add(loc)
-
-    db.session.commit()
 
 
 def init_subjects():
@@ -55,7 +25,6 @@ def init_subjects():
 
 def create_db():
     db.create_all()
-    init_localisations()
     init_subjects()
 
 
