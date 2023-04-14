@@ -1,13 +1,13 @@
 from . import app, bcrypt, session, ADMINS
-from .database import insert_announcement, insert_user, get_user, get_user_by_id, get_user_by_username, get_degree_course, insert_degree_course, get_subject, insert_subject
-from .models import Announcement, User, Subject, DegreeCourse
+from .database import insert_announcement, insert_user, get_user, get_user_by_id, get_user_by_username, \
+    get_degree_course, insert_degree_course, get_subject, insert_subject, insert_review
+from .models import Announcement, User, Subject, DegreeCourse, Review
 from flask import jsonify, request, abort
 from .serialize import get_announcements, get_user_data, get_degree_courses, get_subjects
 
 
 @app.route("/", methods=["GET"])
 def home():
-
     price_from = request.args.get("price_from")
     price_to = request.args.get("price_to")
     subject = request.args.get("subject")
@@ -181,3 +181,41 @@ def degree_courses():
 @app.route("/subjects", methods=["GET"])
 def subjects():
     return jsonify(get_subjects())
+
+
+@app.route("/add_review", methods=["POST"])
+def add_review():
+    data = request.get_json(force=True)
+
+    # Check if user is logged
+    if 'user_id' not in session:
+        return abort(400, "User not logged")
+
+    user_id = session['user_id']
+
+    reviewee_username = data["reviewee"]
+    rate = data["rate"]
+    review = data["review"] if "review" in data else None
+
+    if int(rate) < 1 or int(rate) > 5:
+        abort(400, "rate must be between 1 and 5")
+
+    # check if user exists
+    reviewee = get_user_by_username(reviewee_username)
+    if reviewee is None:
+        abort(400, "User not exist")
+
+    # Check if user already add review to given person
+    for revs in reviewee.reviews_received:
+        if revs.reviewer_id == user_id:
+            return abort(400, "Already given review")
+
+    insert_review(
+        Review(
+            rate=rate,
+            review=review,
+            reviewer_id=user_id,
+            reviewee_id=reviewee.id)
+    )
+
+    return "ok"

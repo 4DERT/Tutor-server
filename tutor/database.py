@@ -1,5 +1,5 @@
 from . import db, bcrypt
-from .models import Announcement, User, DegreeCourse, Subject
+from .models import Announcement, User, DegreeCourse, Subject, Review
 import re
 
 
@@ -64,3 +64,7 @@ def insert_subject(subject: Subject) -> None:
     db.session.add(subject)
     db.session.commit()
 
+
+def insert_review(review: Review) -> None:
+    db.session.add(review)
+    db.session.commit()
