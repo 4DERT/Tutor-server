@@ -88,6 +88,6 @@ Returns info about given user
  - [ ] find way to store user avatars in the db
  - [ ] announcements sorting
  - [ ] add ratings and reviews about users
- - [ ] store SECRET_KEY in .env
+ - [x] store SECRET_KEY in .env
  - [ ] announcements editing
  - [ ] and more...
