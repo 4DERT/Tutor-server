@@ -6,7 +6,7 @@ GET, return all announcments
 
 You can filter announcements by adding GET parameters like:
 ```
-?subject=informatyka
+?subject=matematyka
 ```
 You can add multiple filters joing them using '&':
 ```
@@ -16,16 +16,15 @@ You can add multiple filters joing them using '&':
 All avaible filters:
  - price_from
  - price_to
- - location
  - subject
+ - degree_course
+ - semester
  - is_negotiable
  - date_posted_from
  - date_posted_to
 
 Date format is: YYYY-mm-dd
 
-#### /locations
-GET avaible locations
 
 #### /sign_up
 POST method
@@ -60,11 +59,12 @@ POST method
 ```json
 {
   "title": "Ucze jak robić równania różniczkowe",
-  "content": "Szybko i tanio!",
-  "price": 32,
+  "content": "fajny opis",
+  "price": 120,
   "is_negotiable": false,
   "degree_course": "informatyka",
-  "subject": "matematyka"
+  "subject": "matematyka",
+  "semester": 4
 }
 ```
 
@@ -78,13 +78,44 @@ GET method
 
 Returns info about given user
 
+### /subjects
+GET method
+
+Returns all subjects
+
+### /degree_courses
+GET method
+
+Returns all degree_courses
+
+### /new_degree_course
+POST method
+```json
+{
+  "degree_course": "informatyka"
+}
+```
+This method is only available for admin
+
+### /new_subject
+POST method
+```json
+{
+  "subject": "matematyka",
+  "degree_course": "informatyka",
+  "semester": 1
+}
+```
+This method is only available for admin
+
+
 ## To do
  - [x] user sesions and log in
  - [x] password hash
  - [x] announcements filtering
  - [x] loged user info endpoint
  - [x] other users info endpoint
- - [ ] find better validation system, try...catch is bleh
+ - [x] find better validation system, try...catch is bleh
  - [ ] find way to store user avatars in the db
  - [ ] announcements sorting
  - [ ] add ratings and reviews about users

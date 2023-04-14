@@ -11,11 +11,13 @@ def home():
     price_from = request.args.get("price_from")
     price_to = request.args.get("price_to")
     subject = request.args.get("subject")
+    degree_course = request.args.get("degree_course")
+    semester = request.args.get("semester")
     is_negotiable = request.args.get("is_negotiable")
     date_posted_from = request.args.get("date_posted_from")
     date_posted_to = request.args.get("date_posted_to")
 
-    return jsonify(get_announcements(price_from, price_to, subject,
+    return jsonify(get_announcements(price_from, price_to, subject, degree_course, semester,
                                      is_negotiable, date_posted_from, date_posted_to))
 
 
@@ -29,45 +31,50 @@ def new_announcement():
     user_id = session['user_id']
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
 
-    try:
-        announcement = Announcement(
-            title=data['title'],
-            content=data['content'],
-            price=data['price'],
-            is_negotiable=data['is_negotiable'],
-            user_id=user_id,
-            subject_id=degree_course.subjects[0].id
-        )
+    if degree_course is None:
+        return abort(400, "degree_course not exists")
 
-        insert_announcement(announcement)
-        return "ok"  # TODO
+    subject = Subject.query.filter_by(subject=data['subject'],
+                                      degree_course_id=degree_course.id,
+                                      semester=data['semester']).first()
 
-    except (AttributeError, KeyError) as error:
-        return abort(400)
+    if subject is None:
+        return abort(400, "subject not exists")
+
+    announcement = Announcement(
+        title=data['title'],
+        content=data['content'],
+        price=data['price'],
+        is_negotiable=data['is_negotiable'],
+        user_id=user_id,
+        subject_id=subject.id
+    )
+
+    insert_announcement(announcement)
+    return "ok"  # TODO
 
 
 @app.route("/sign_up", methods=["POST"])
 def sign_up():
     data = request.get_json(force=True)
 
-    # TODO: find better validation system
-    try:
-        hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
+    # Check if user exists
+    if get_user(data['username'], data['password']) is not None:
+        return abort(400, "User exists")
 
-        user = User(
-            username=data['username'],
-            email=data['email'],
-            password=hashed_password,
-            name=data['name'],
-            surname=data['surname'],
-            phone=data['phone']
-        )
+    hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
 
-        insert_user(user)
-        return "ok"  # TODO
+    user = User(
+        username=data['username'],
+        email=data['email'],
+        password=hashed_password,
+        name=data['name'],
+        surname=data['surname'],
+        phone=data['phone']
+    )
 
-    except (AttributeError, KeyError) as error:
-        return abort(400)
+    insert_user(user)
+    return "ok"  # TODO
 
 
 @app.route("/login", methods=["POST"])

@@ -1,35 +1,38 @@
+import sqlalchemy
 from .models import Announcement, Subject, User, DegreeCourse
-from .database import get_degree_course_by_id
-from . import db
+from .database import get_degree_course_by_id, get_degree_course
 
 
 def get_announcements(price_from: int | None,
                       price_to: int | None,
                       subject: str | None,
+                      degree_course: str | None,
+                      semester: int | None,
                       is_negotiable: bool | None,
                       date_posted_from: str | None,
                       date_posted_to: str | None):
-
-    subject_id = Subject.query.filter_by(subject=subject).first().id if subject else None
-
-    # filter_by
-    filters_by = {
-        "subject_id": subject_id,
-        "is_negotiable": is_negotiable,
+    # Subject filtering
+    dg = get_degree_course(degree_course)
+    subject_filters_by = {
+        "subject": subject,
+        "degree_course_id": dg.id if dg is not None else None,
+        "semester": semester
     }
-    final_filters_by = {key: val for key, val in filters_by.items() if val is not None}
+    subject_final_filters_by = {key: val for key, val in subject_filters_by.items() if val is not None}
+    subjects = Subject.query.filter_by(**subject_final_filters_by) if len(subject_final_filters_by) != 0 else []
 
-    # filter
+    # Announcements filtering
     filters = [
+        (Announcement.is_negotiable == is_negotiable) if is_negotiable else None,
         (Announcement.price >= price_from) if price_from else None,
         (Announcement.price <= price_to) if price_to else None,
         (Announcement.date_posted >= date_posted_from) if date_posted_from else None,
         (Announcement.date_posted <= date_posted_to) if date_posted_to else None
     ]
-
+    filters_or = [(Announcement.subject_id == s.id) for s in subjects]
     final_filters = [f for f in filters if f is not None]
 
-    query = Announcement.query.filter_by(**final_filters_by).filter(*final_filters)
+    query = Announcement.query.filter(*final_filters, sqlalchemy.or_(*filters_or))
 
     return [
         {
