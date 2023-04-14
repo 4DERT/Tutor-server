@@ -8,6 +8,7 @@ from os import getenv
 load_dotenv()
 
 SECRET_KEY = getenv("SECRET_KEY", "FIND_BETTER_KEY")
+ADMINS = getenv("ADMINS", "").split(',')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY

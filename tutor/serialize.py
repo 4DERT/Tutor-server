@@ -1,4 +1,5 @@
-from .models import Announcement, Subject, User
+from .models import Announcement, Subject, User, DegreeCourse
+from .database import get_degree_course_by_id
 from . import db
 
 
@@ -72,4 +73,12 @@ def get_user_data(user: User):
 
 
 def get_subjects():
-    return [s.subject for s in Subject.query.all()]
+    return [{
+        "subject": s.subject,
+        "degree_course": get_degree_course_by_id(s.degree_course_id).degree_course,
+        "semester": s.semester
+        } for s in Subject.query.all()]
+
+
+def get_degree_courses():
+    return [dg.degree_course for dg in DegreeCourse.query.all()]

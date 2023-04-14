@@ -1,5 +1,5 @@
 from . import db, bcrypt
-from .models import Announcement, User
+from .models import Announcement, User, DegreeCourse, Subject
 import re
 
 
@@ -39,3 +39,28 @@ def get_user_by_id(user_id: int) -> User | None:
 
 def get_user_by_username(username: str) -> User:
     return db.session.query(User).filter(User.username == username).first()
+
+
+def get_degree_course(degree_course: str) -> DegreeCourse | None:
+    return db.session.query(DegreeCourse).filter(DegreeCourse.degree_course == degree_course).first()
+
+
+def get_degree_course_by_id(id: int) -> DegreeCourse | None:
+    return db.session.query(DegreeCourse).filter(DegreeCourse.id == id).first()
+
+
+def insert_degree_course(degree_course: DegreeCourse):
+    db.session.add(degree_course)
+    db.session.commit()
+
+
+def get_subject(subject: str, degree_course: str, semester: int) -> Subject | None:
+    return db.session.query(Subject).filter(Subject.subject == subject,
+                                            Subject.semester == semester,
+                                            Subject.degree_course_id == get_degree_course(degree_course).id).first()
+
+
+def insert_subject(subject: Subject) -> None:
+    db.session.add(subject)
+    db.session.commit()
+
