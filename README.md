@@ -108,8 +108,14 @@ POST method
 ```
 This method is only available for admin
 
+# Application settings
+You can configure an app secret key and admin usernames in `.env` file:
+```.env
+SECRET_KEY="KEY"
+ADMINS=4DERT,pablo
+```
 
-## To do
+# To do
  - [x] user sesions and log in
  - [x] password hash
  - [x] announcements filtering
