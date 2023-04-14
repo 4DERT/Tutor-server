@@ -108,8 +108,24 @@ POST method
 ```
 This method is only available for admin
 
+### /add_review
+POST method
+```json
+{
+  "reviewee": "4DERT",
+  "rate": 5,
+  "review": "Fajny korepetytor"
+}
+```
 
-## To do
+# Application settings
+You can configure an app secret key and admin usernames in `.env` file:
+```.env
+SECRET_KEY="KEY"
+ADMINS=4DERT,pablo
+```
+
+# To do
  - [x] user sesions and log in
  - [x] password hash
  - [x] announcements filtering
@@ -118,7 +134,7 @@ This method is only available for admin
  - [x] find better validation system, try...catch is bleh
  - [ ] find way to store user avatars in the db
  - [ ] announcements sorting
- - [ ] add ratings and reviews about users
+ - [x] add ratings and reviews about users
  - [x] store SECRET_KEY in .env
  - [ ] announcements editing
  - [ ] and more...

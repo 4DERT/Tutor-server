@@ -39,8 +39,11 @@ class User(db.Model):
     semester = db.Column(db.Integer, nullable=True)
 
     announcements = db.relationship('Announcement', backref='author', lazy=True)
+    reviews_given = db.relationship("Review", back_populates="reviewer", foreign_keys="[Review.reviewer_id]")
+    reviews_received = db.relationship("Review", back_populates="reviewee", foreign_keys="[Review.reviewee_id]")
 
-    def __repr__(self):
+
+def __repr__(self):
         return f"User('{self.id}', '{self.username}')"
 
 
@@ -56,3 +59,18 @@ class Announcement(db.Model):
 
     def __repr__(self):
         return f"Announcement('{self.id}', '{self.title}', '{self.date_posted}')"
+
+
+class Review(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    rate = db.Column(db.Integer, nullable=False)
+    review = db.Column(db.String(1000), nullable=True)
+    reviewer_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    reviewee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.Date, nullable=False, default=date.today())
+
+    reviewer = db.relationship("User", foreign_keys=[reviewer_id])
+    reviewee = db.relationship("User", foreign_keys=[reviewee_id])
+
+    def __repr__(self):
+        return f"Review('{self.id}', '{self.rate}', '{self.review}')"

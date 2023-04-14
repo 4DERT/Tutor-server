@@ -1,6 +1,6 @@
 import sqlalchemy
 from .models import Announcement, Subject, User, DegreeCourse
-from .database import get_degree_course_by_id, get_degree_course
+from .database import get_degree_course_by_id, get_degree_course, get_user_by_id
 
 
 def get_announcements(price_from: int | None,
@@ -71,7 +71,13 @@ def get_user_data(user: User):
             'price': obj.price,
             'is_negotiable': obj.is_negotiable,
             'subject': obj.subject.subject,
-        } for obj in user.announcements]
+        } for obj in user.announcements],
+        "reviews": [{
+            "rate": rev.rate,
+            "review": rev.review,
+            "reviewer": get_user_by_id(rev.reviewer_id).username,
+            "date": rev.date
+        } for rev in user.reviews_received]
     }
 
 
