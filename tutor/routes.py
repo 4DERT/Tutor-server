@@ -1,6 +1,6 @@
 from . import app, bcrypt, session
 from .database import insert_announcement, insert_user, get_user, get_user_by_id, get_user_by_username
-from .models import Announcement, User, Subject
+from .models import Announcement, User, Subject, DegreeCourse
 from flask import jsonify, request, abort
 from .serialize import get_announcements, get_user_data
 
@@ -27,6 +27,7 @@ def new_announcement():
         return abort(400)
 
     user_id = session['user_id']
+    degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
 
     try:
         announcement = Announcement(
@@ -35,7 +36,7 @@ def new_announcement():
             price=data['price'],
             is_negotiable=data['is_negotiable'],
             user_id=user_id,
-            subject_id=Subject.query.filter_by(subject=data['subject']).first().id,
+            subject_id=degree_course.subjects[0].id
         )
 
         insert_announcement(announcement)

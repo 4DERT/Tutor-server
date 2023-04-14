@@ -44,6 +44,9 @@ def get_announcements(price_from: int | None,
             'announcer_email': obj.author.email,
             'announcer_phone': obj.author.phone,
             'subject': obj.subject.subject,
+            'degree_course': obj.subject.degree_course.degree_course,
+            'semester': obj.subject.semester
+
         } for obj in query
     ]
 

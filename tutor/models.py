@@ -2,9 +2,21 @@ from datetime import date
 from . import db
 
 
+class DegreeCourse(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    degree_course = db.Column(db.String(100), nullable=False)
+
+    subjects = db.relationship('Subject', backref='degree_course', lazy=True)
+
+    def __repr__(self):
+        return f"DegreeCourse('{self.id}', '{self.degree_course}')"
+
+
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    subject = db.Column(db.String(100), unique=True, nullable=False)
+    subject = db.Column(db.String(100), nullable=False)
+    degree_course_id = db.Column(db.Integer, db.ForeignKey('degree_course.id'), nullable=False)
+    semester = db.Column(db.Integer, nullable=False)
 
     announcements = db.relationship('Announcement', backref='subject', lazy=True)
 

@@ -59,12 +59,12 @@ GET method
 POST method
 ```json
 {
-  "title": "Chemia do matury",
-  "content": "Szbko i skutecznie naucze cię chemii do matury.",
+  "title": "Ucze jak robić równania różniczkowe",
+  "content": "Szybko i tanio!",
   "price": 32,
-  "is_negotiable": true,
-  "subject": "chemia",
-  "location": "podkarpackie"
+  "is_negotiable": false,
+  "degree_course": "informatyka",
+  "subject": "matematyka"
 }
 ```
 

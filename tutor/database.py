@@ -1,31 +1,10 @@
 from . import db, bcrypt
-from .models import Announcement, Subject, User
+from .models import Announcement, User
 import re
-
-
-def init_subjects():
-    subjects = [
-        "matematyka",
-        "fizyka",
-        "biologia",
-        "przyroda",
-        "informatyka",
-        "chemia"
-    ]
-
-    if db.session.query(Subject).count() == len(subjects):
-        return
-
-    for subject in subjects:
-        sub = Subject(subject=subject)
-        db.session.add(sub)
-
-    db.session.commit()
 
 
 def create_db():
     db.create_all()
-    init_subjects()
 
 
 def insert_announcement(announcement: Announcement):
