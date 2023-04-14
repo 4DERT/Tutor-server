@@ -7,6 +7,7 @@ class DegreeCourse(db.Model):
     degree_course = db.Column(db.String(100), nullable=False)
 
     subjects = db.relationship('Subject', backref='degree_course', lazy=True)
+    users = db.relationship('User', backref='degree_course', lazy=True)
 
     def __repr__(self):
         return f"DegreeCourse('{self.id}', '{self.degree_course}')"
@@ -34,6 +35,8 @@ class User(db.Model):
     surname = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(9), unique=True, nullable=False)
     description = db.Column(db.String(1000), nullable=False, default="")
+    degree_course_id = db.Column(db.Integer, db.ForeignKey('degree_course.id'), nullable=True)
+    semester = db.Column(db.Integer, nullable=True)
 
     announcements = db.relationship('Announcement', backref='author', lazy=True)
 
