@@ -48,3 +48,11 @@ def get_subject(subject: str, degree_course: str, semester: int) -> Subject | No
     return db.session.query(Subject).filter(Subject.subject == subject,
                                             Subject.semester == semester,
                                             Subject.degree_course_id == get_degree_course(degree_course).id).first()
+
+
+def get_announcement_by_id(announcement_id: int) -> Announcement | None:
+    return db.session.query(Announcement).filter(Announcement.id == announcement_id).first()
+
+
+def commit_database() -> None:
+    db.session.commit()
