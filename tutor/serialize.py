@@ -3,14 +3,15 @@ from .models import Announcement, Subject, User, DegreeCourse
 from .database import get_degree_course_by_id, get_degree_course, get_user_by_id
 
 
-def get_announcements(price_from: int | None,
-                      price_to: int | None,
-                      subject: str | None,
-                      degree_course: str | None,
-                      semester: int | None,
-                      is_negotiable: bool | None,
-                      date_posted_from: str | None,
-                      date_posted_to: str | None):
+def get_announcements(price_from: int | None = None,
+                      price_to: int | None = None,
+                      subject: str | None = None,
+                      degree_course: str | None = None,
+                      semester: int | None = None,
+                      is_negotiable: bool | None = None,
+                      date_posted_from: str | None = None,
+                      date_posted_to: str | None = None,
+                      announcement_id: int | None = None):
     # Subject filtering
     dg = get_degree_course(degree_course)
     subject_filters_by = {
@@ -27,7 +28,8 @@ def get_announcements(price_from: int | None,
         (Announcement.price >= price_from) if price_from else None,
         (Announcement.price <= price_to) if price_to else None,
         (Announcement.date_posted >= date_posted_from) if date_posted_from else None,
-        (Announcement.date_posted <= date_posted_to) if date_posted_to else None
+        (Announcement.date_posted <= date_posted_to) if date_posted_to else None,
+        (Announcement.id == announcement_id) if announcement_id else None,
     ]
     filters_or = [(Announcement.subject_id == s.id) for s in subjects]
     final_filters = [f for f in filters if f is not None]

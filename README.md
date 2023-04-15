@@ -1,7 +1,7 @@
 # Tutor app server
 
 # Enpoints
-#### /
+#### / or /announcements
 GET, return all announcments
 
 You can filter announcements by adding GET parameters like:
@@ -67,6 +67,11 @@ POST method
   "semester": 4
 }
 ```
+
+#### /announcements/*id*
+GET, PUT methods
+
+You can edit announcement using PUT method (the same json as in [new_announcement](#new_announcement))
 
 ### /my_account  
 GET method

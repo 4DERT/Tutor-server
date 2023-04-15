@@ -2,13 +2,15 @@ from flask import jsonify, request
 
 from . import app, bcrypt, session, ADMINS, response
 from .database import get_user, get_user_by_id, get_user_by_username, get_degree_course, \
-    get_subject, insert_into_database
+    get_subject, insert_into_database, get_announcement_by_id, commit_database
 from .models import Announcement, User, Subject, DegreeCourse, Review
 from .serialize import get_announcements, get_user_data, get_degree_courses, get_subjects
 
 
+# Showing all announcements
 @app.route("/", methods=["GET"])
-def home():
+@app.route("/announcements", methods=["GET"])
+def get_all_announcements():
     price_from = request.args.get("price_from")
     price_to = request.args.get("price_to")
     subject = request.args.get("subject")
@@ -22,6 +24,18 @@ def home():
                                      is_negotiable, date_posted_from, date_posted_to))
 
 
+# Showing single announcement
+@app.route("/announcements/<int:announcement_id>", methods=["GET"])
+def get_announcement(announcement_id):
+    announcements = get_announcements(announcement_id=announcement_id)
+
+    if len(announcements) == 0:
+        return response.BAD_REQUEST
+
+    return jsonify(announcements)
+
+
+# Adding announcement
 @app.route("/new_announcement", methods=["POST"])
 def new_announcement():
     data = request.get_json(force=True)
@@ -67,6 +81,65 @@ def new_announcement():
         subject_id=subject.id
     )
     insert_into_database(announcement)
+
+    return response.SUCCESS
+
+
+# Updating announcement
+@app.route("/announcements/<int:announcement_id>", methods=["PUT"])
+def update_announcement(announcement_id):
+    announcement = get_announcement_by_id(announcement_id)
+
+    # Checking if announcement exists
+    if announcement is None:
+        return response.BAD_REQUEST
+
+    # Checking input data
+    data = request.get_json(force=True)
+
+    conditions = [
+        'title' not in data,
+        'content' not in data,
+        'price' not in data,
+        'is_negotiable' not in data,
+        'degree_course' not in data,
+        'subject' not in data,
+        'semester' not in data,
+    ]
+    if any(conditions):
+        return response.BAD_REQUEST
+
+    # Checking if user is logged
+    if 'user_id' not in session:
+        return response.UNAUTHORIZED
+
+    user_id = session['user_id']
+
+    # Checking if user edits own announcement
+    if announcement.user_id != user_id:
+        return response.UNAUTHORIZED
+
+    # Checking if degree_course exists
+    degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
+    if degree_course is None:
+        return response.CONFLICT
+
+    # Checking if subject exists
+    subject = Subject.query.filter_by(subject=data['subject'],
+                                      degree_course_id=degree_course.id,
+                                      semester=data['semester']).first()
+    if subject is None:
+        return response.CONFLICT
+
+    # Updating announcement
+    announcement.title = data['title']
+    announcement.content = data['content']
+    announcement.price = data['price']
+    announcement.is_negotiable = data['is_negotiable']
+    announcement.user_id = user_id
+    announcement.subject_id = subject.id
+
+    commit_database()
 
     return response.SUCCESS
 
@@ -227,8 +300,8 @@ def new_subject():
 
     # Inserting subject into db
     insert_into_database(Subject(subject=data['subject'],
-                               degree_course_id=degree_course.id,
-                               semester=data['semester']))
+                                 degree_course_id=degree_course.id,
+                                 semester=data['semester']))
 
     return response.SUCCESS
 
