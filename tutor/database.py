@@ -7,13 +7,8 @@ def create_db():
     db.create_all()
 
 
-def insert_announcement(announcement: Announcement):
-    db.session.add(announcement)
-    db.session.commit()
-
-
-def insert_user(user: User):
-    db.session.add(user)
+def insert_into_database(obj: Announcement | User | Subject | DegreeCourse | Review) -> None:
+    db.session.add(obj)
     db.session.commit()
 
 
@@ -49,22 +44,7 @@ def get_degree_course_by_id(id: int) -> DegreeCourse | None:
     return db.session.query(DegreeCourse).filter(DegreeCourse.id == id).first()
 
 
-def insert_degree_course(degree_course: DegreeCourse):
-    db.session.add(degree_course)
-    db.session.commit()
-
-
 def get_subject(subject: str, degree_course: str, semester: int) -> Subject | None:
     return db.session.query(Subject).filter(Subject.subject == subject,
                                             Subject.semester == semester,
                                             Subject.degree_course_id == get_degree_course(degree_course).id).first()
-
-
-def insert_subject(subject: Subject) -> None:
-    db.session.add(subject)
-    db.session.commit()
-
-
-def insert_review(review: Review) -> None:
-    db.session.add(review)
-    db.session.commit()
