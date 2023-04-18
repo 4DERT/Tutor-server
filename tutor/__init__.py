@@ -18,4 +18,4 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
-from . import routes
+from .routes import announcements, session, subjects, degree_courses, users, reviews
