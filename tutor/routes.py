@@ -222,7 +222,7 @@ def logout():
     return response.SUCCESS
 
 
-@app.route("/my_account", methods=["GET", "DELETE"])
+@app.route("/my_account", methods=["GET", "DELETE", "PUT"])
 def dashboard():
     if 'user_id' not in session:
         return response.UNAUTHORIZED
@@ -250,6 +250,44 @@ def dashboard():
 
         delete_from_database(user, True)
         return response.SUCCESS
+
+    # PUT method
+
+    # Checking input data
+    data = request.get_json(force=True)
+
+    conditions = [
+        'email' not in data,
+        'name' not in data,
+        'surname' not in data,
+        'phone' not in data,
+        'description' not in data,
+        'degree_course' not in data,
+        'semester' not in data,
+    ]
+    if any(conditions):
+        return response.BAD_REQUEST
+
+    # Checking if degree_course exists
+    degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
+    if degree_course is None:
+        return response.CONFLICT
+
+    # Checking if semester exists
+    if data['semester'] < 0 or data['semester'] > 7:
+        return response.CONFLICT
+
+    # Updating account
+    user.email = data['email']
+    user.name = data['name']
+    user.surname = data['surname']
+    user.phone = data['phone']
+    user.description = data['description']
+    user.degree_course_id = degree_course.id
+    user.semester = data['semester']
+
+    commit_database()
+    return response.SUCCESS
 
 
 @app.route("/user/<username>", methods=["GET"])
