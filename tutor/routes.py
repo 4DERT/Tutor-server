@@ -2,7 +2,7 @@ from flask import jsonify, request
 
 from . import app, bcrypt, session, ADMINS, response
 from .database import get_user, get_user_by_id, get_user_by_username, get_degree_course, \
-    get_subject, insert_into_database, get_announcement_by_id, commit_database
+    get_subject, insert_into_database, get_announcement_by_id, commit_database, delete_from_database
 from .models import Announcement, User, Subject, DegreeCourse, Review
 from .serialize import get_announcements, get_user_data, get_degree_courses, get_subjects
 
@@ -91,13 +91,27 @@ def new_announcement():
 
 
 # Updating announcement
-@app.route("/announcements/<int:announcement_id>", methods=["PUT"])
+@app.route("/announcements/<int:announcement_id>", methods=["PUT", "DELETE"])
 def update_announcement(announcement_id):
     announcement = get_announcement_by_id(announcement_id)
 
     # Checking if announcement exists
     if announcement is None:
         return response.BAD_REQUEST
+
+    # Checking if user is logged
+    if 'user_id' not in session:
+        return response.UNAUTHORIZED
+
+    user_id = session['user_id']
+
+    # Checking if user edits own announcement
+    if announcement.user_id != user_id:
+        return response.UNAUTHORIZED
+
+    if request.method == 'DELETE':
+        delete_from_database(announcement)
+        return response.SUCCESS
 
     # Checking input data
     data = request.get_json(force=True)
@@ -113,16 +127,6 @@ def update_announcement(announcement_id):
     ]
     if any(conditions):
         return response.BAD_REQUEST
-
-    # Checking if user is logged
-    if 'user_id' not in session:
-        return response.UNAUTHORIZED
-
-    user_id = session['user_id']
-
-    # Checking if user edits own announcement
-    if announcement.user_id != user_id:
-        return response.UNAUTHORIZED
 
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()

@@ -12,6 +12,11 @@ def insert_into_database(obj: Announcement | User | Subject | DegreeCourse | Rev
     db.session.commit()
 
 
+def delete_from_database(obj: Announcement | User | Subject | DegreeCourse | Review) -> None:
+    db.session.delete(obj)
+    db.session.commit()
+
+
 def get_user(username_or_email: str, password: str) -> User | None:
     if re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', username_or_email):
         user = db.session.query(User).filter(User.email == username_or_email).first()

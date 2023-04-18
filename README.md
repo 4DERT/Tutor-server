@@ -76,7 +76,7 @@ POST method
 ```
 
 #### /announcements/*id*
-GET, PUT methods
+GET, PUT, DELETE methods
 
 You can edit announcement using PUT method (the same json as in [new_announcement](#new_announcement))
 
@@ -148,5 +148,6 @@ ADMINS=4DERT,pablo
  - [x] announcements sorting
  - [x] add ratings and reviews about users
  - [x] store SECRET_KEY in .env
- - [ ] announcements editing
+ - [x] announcements editing
+ - [x] announcements deleting
  - [ ] and more...
