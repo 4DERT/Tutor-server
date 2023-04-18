@@ -81,9 +81,22 @@ GET, PUT, DELETE methods
 You can edit announcement using PUT method (the same json as in [new_announcement](#new_announcement))
 
 ### /my_account  
-GET method
+GET, PUT, DELETE method
 
-Returns loged user info
+Returns logged user info.
+
+To edit account use PUT method with following json:
+```json
+{
+    "description": "Fajny. młody, ciekawy a co najważniejsze przystojny chłopak",
+    "email": "4DERT@demo.com",
+    "name": "Jarosław",
+    "phone": "213742071",
+    "surname": "Jarząbkowski",
+    "semester": 4,
+    "degree_course": "informatyka"
+}
+```
 
 ### /user/*username*
 GET method
@@ -152,6 +165,6 @@ ADMINS=4DERT,pablo
  - [x] announcements deleting
  - [ ] reviews editing
  - [ ] reviews deleting
- - [ ] account editing
+ - [x] account editing
  - [x] account delete
  - [ ] and more...
