@@ -222,7 +222,7 @@ def logout():
     return response.SUCCESS
 
 
-@app.route("/my_account", methods=["GET"])
+@app.route("/my_account", methods=["GET", "DELETE"])
 def dashboard():
     if 'user_id' not in session:
         return response.UNAUTHORIZED
@@ -230,7 +230,26 @@ def dashboard():
     user_id = session['user_id']
     user = get_user_by_id(user_id)
 
-    return jsonify(get_user_data(user))
+    if request.method == 'GET':
+        return jsonify(get_user_data(user))
+
+    if request.method == 'DELETE':
+        # logout
+        session.pop('user_id', None)
+
+        # deleting reviews
+        for review in user.reviews_given:
+            delete_from_database(review, to_commit=False)
+
+        for review in user.reviews_received:
+            delete_from_database(review, to_commit=False)
+
+        # deleting announcements
+        for announcement in user.announcements:
+            delete_from_database(announcement, to_commit=False)
+
+        delete_from_database(user, True)
+        return response.SUCCESS
 
 
 @app.route("/user/<username>", methods=["GET"])

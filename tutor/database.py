@@ -12,9 +12,10 @@ def insert_into_database(obj: Announcement | User | Subject | DegreeCourse | Rev
     db.session.commit()
 
 
-def delete_from_database(obj: Announcement | User | Subject | DegreeCourse | Review) -> None:
+def delete_from_database(obj: Announcement | User | Subject | DegreeCourse | Review, to_commit: bool = True) -> None:
     db.session.delete(obj)
-    db.session.commit()
+    if to_commit:
+        db.session.commit()
 
 
 def get_user(username_or_email: str, password: str) -> User | None:

@@ -150,4 +150,8 @@ ADMINS=4DERT,pablo
  - [x] store SECRET_KEY in .env
  - [x] announcements editing
  - [x] announcements deleting
+ - [ ] reviews editing
+ - [ ] reviews deleting
+ - [ ] account editing
+ - [x] account delete
  - [ ] and more...
