@@ -11,7 +11,9 @@ def get_announcements(price_from: int | None = None,
                       is_negotiable: bool | None = None,
                       date_posted_from: str | None = None,
                       date_posted_to: str | None = None,
-                      announcement_id: int | None = None):
+                      announcement_id: int | None = None,
+                      price_sort: str | None = None,
+                      date_sort: str | None = None):
     # Subject filtering
     dg = get_degree_course(degree_course)
     subject_filters_by = {
@@ -34,7 +36,16 @@ def get_announcements(price_from: int | None = None,
     filters_or = [(Announcement.subject_id == s.id) for s in subjects]
     final_filters = [f for f in filters if f is not None]
 
-    query = Announcement.query.filter(*final_filters, sqlalchemy.or_(*filters_or))
+    # Announcements sorting
+    sort = [
+        (Announcement.price.asc()) if price_sort == 'asc' else None,
+        (Announcement.price.desc()) if price_sort == 'desc' else None,
+        (Announcement.date_posted.asc()) if date_sort == 'asc' else None,
+        (Announcement.date_posted.desc()) if date_sort == 'desc' else None
+    ]
+    final_sort = [s for s in sort if s is not None]
+
+    query = Announcement.query.filter(*final_filters, sqlalchemy.or_(*filters_or)).order_by(*final_sort)
 
     return [
         {

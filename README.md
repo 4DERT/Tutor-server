@@ -25,6 +25,13 @@ All avaible filters:
 
 Date format is: YYYY-mm-dd
 
+You can also sort by price or date using:
+```
+?price_sort=asc
+```
+```
+?date_sort=desc
+```
 
 #### /sign_up
 POST method
@@ -138,7 +145,7 @@ ADMINS=4DERT,pablo
  - [x] other users info endpoint
  - [x] find better validation system, try...catch is bleh
  - [ ] find way to store user avatars in the db
- - [ ] announcements sorting
+ - [x] announcements sorting
  - [x] add ratings and reviews about users
  - [x] store SECRET_KEY in .env
  - [ ] announcements editing

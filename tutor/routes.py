@@ -11,6 +11,7 @@ from .serialize import get_announcements, get_user_data, get_degree_courses, get
 @app.route("/", methods=["GET"])
 @app.route("/announcements", methods=["GET"])
 def get_all_announcements():
+    # filtering
     price_from = request.args.get("price_from")
     price_to = request.args.get("price_to")
     subject = request.args.get("subject")
@@ -20,8 +21,12 @@ def get_all_announcements():
     date_posted_from = request.args.get("date_posted_from")
     date_posted_to = request.args.get("date_posted_to")
 
+    # sorting
+    price_sort = request.args.get("price_sort")
+    date_sort = request.args.get("date_sort")
+
     return jsonify(get_announcements(price_from, price_to, subject, degree_course, semester,
-                                     is_negotiable, date_posted_from, date_posted_to))
+                                     is_negotiable, date_posted_from, date_posted_to, None, price_sort, date_sort))
 
 
 # Showing single announcement
