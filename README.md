@@ -163,8 +163,12 @@ ADMINS=4DERT,pablo
  - [x] store SECRET_KEY in .env
  - [x] announcements editing
  - [x] announcements deleting
- - [ ] reviews editing
- - [ ] reviews deleting
+ - [x] reviews editing
+ - [x] reviews deleting
  - [x] account editing
- - [x] account delete
+ - [x] account deleting
+ - [ ] subjects editing
+ - [ ] subjects deleting
+ - [ ] degree course editing
+ - [ ] degree course deleting
  - [ ] and more...
