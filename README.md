@@ -103,6 +103,16 @@ GET method
 
 Returns info about given user
 
+
+### /user/*username*/review
+POST, PUT, DELETE methods
+```json
+{
+  "rate": 5,
+  "review": "Fajny korepetytor"
+}
+```
+
 ### /subjects
 GET method
 
@@ -133,16 +143,6 @@ POST method
 ```
 This method is only available for admin
 
-### /add_review
-POST method
-```json
-{
-  "reviewee": "4DERT",
-  "rate": 5,
-  "review": "Fajny korepetytor"
-}
-```
-
 # Application settings
 You can configure an app secret key and admin usernames in `.env` file:
 ```.env
@@ -163,8 +163,12 @@ ADMINS=4DERT,pablo
  - [x] store SECRET_KEY in .env
  - [x] announcements editing
  - [x] announcements deleting
- - [ ] reviews editing
- - [ ] reviews deleting
+ - [x] reviews editing
+ - [x] reviews deleting
  - [x] account editing
- - [x] account delete
+ - [x] account deleting
+ - [ ] subjects editing
+ - [ ] subjects deleting
+ - [ ] degree course editing
+ - [ ] degree course deleting
  - [ ] and more...

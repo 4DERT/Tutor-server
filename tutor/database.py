@@ -62,3 +62,11 @@ def get_announcement_by_id(announcement_id: int) -> Announcement | None:
 
 def commit_database() -> None:
     db.session.commit()
+
+
+def get_review(reviewee: User, reviewer_id: int) -> Review | None:
+    for rev in reviewee.reviews_received:
+        if rev.reviewer_id == reviewer_id:
+            return rev
+
+    return None
