@@ -98,6 +98,13 @@ To edit account use PUT method with following json:
 }
 ```
 
+### /my_account/avatar
+GET, PUT, DELETE methods
+
+This endpoint returns base64 encoded image (png or jpg)
+To send avatar use PUT method (couse default is NULL) and use form-data with key named 'file'.
+Avatar must be either PNG or JPEG, max size 512 x 512 px
+
 ### /user/*username*
 GET method
 
@@ -112,6 +119,10 @@ POST, PUT, DELETE methods
   "review": "Fajny korepetytor"
 }
 ```
+
+### /user/*username*/avatar
+GET methods
+Returns base64 encoded image (png or jpg)
 
 ### /subjects
 GET method
@@ -157,7 +168,7 @@ ADMINS=4DERT,pablo
  - [x] loged user info endpoint
  - [x] other users info endpoint
  - [x] find better validation system, try...catch is bleh
- - [ ] find way to store user avatars in the db
+ - [x] find way to store user avatars in the db
  - [x] announcements sorting
  - [x] add ratings and reviews about users
  - [x] store SECRET_KEY in .env
@@ -171,4 +182,5 @@ ADMINS=4DERT,pablo
  - [ ] subjects deleting
  - [ ] degree course editing
  - [ ] degree course deleting
+ - [ ] add endpoint to change password
  - [ ] and more...

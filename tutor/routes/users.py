@@ -1,3 +1,7 @@
+import base64
+from PIL import Image
+from io import BytesIO
+
 from flask import jsonify, request
 
 from tutor import app, session, response
@@ -82,3 +86,68 @@ def user_info(username: str):
         return response.BAD_REQUEST
 
     return jsonify(get_user_data(user))
+
+
+@app.route("/user/<username>/avatar", methods=["GET"])
+def avatar(username: str):
+    user = get_user_by_username(username)
+
+    if user is None:
+        return response.BAD_REQUEST
+
+    if user.image_file is None:
+        return jsonify(None)
+
+    avatar_img = user.image_file
+    avatar_base64 = base64.b64encode(avatar_img).decode("utf-8")
+
+    return jsonify(avatar_base64)
+
+
+@app.route("/my_account/avatar", methods=["GET", "DELETE", "PUT"])
+def my_avatar():
+    if 'user_id' not in session:
+        return response.UNAUTHORIZED
+
+    user_id = session['user_id']
+    user = get_user_by_id(user_id)
+
+    if request.method == 'GET':
+
+        if user.image_file is None:
+            return jsonify(None)
+
+        avatar_img = user.image_file
+        avatar_base64 = base64.b64encode(avatar_img).decode("utf-8")
+
+        return jsonify(avatar_base64)
+
+    if request.method == 'DELETE':
+        user.image_file = None
+        commit_database()
+        return response.SUCCESS
+
+    if 'file' not in request.files:
+        return response.BAD_REQUEST
+
+    pic = request.files['file']
+
+    if not pic:
+        return response.BAD_REQUEST
+
+    pic_stream = pic.stream.read()
+
+    # Check image size
+    pil_img = Image.open(BytesIO(pic_stream))
+
+    if pil_img.size[0] > 512 or pil_img.size[1] > 512:
+        return response.BAD_REQUEST
+
+    # Check image type
+    if pil_img.format not in ["PNG", "JPEG"]:
+        return response.BAD_REQUEST
+
+    # PUT
+    user.image_file = pic_stream
+    commit_database()
+    return response.SUCCESS
