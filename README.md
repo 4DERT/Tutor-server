@@ -130,18 +130,24 @@ GET method
 Returns all subjects
 
 ### /degree_courses
-GET method
+GET, POST method
 
 Returns all degree_courses
 
-### /new_degree_course
-POST method
+To add degree courses use POST with following JOSN:
 ```json
 {
   "degree_course": "informatyka"
 }
 ```
 This method is only available for admin
+
+### /degree_courses/*degree_course*
+GET, PUT, DELETE method
+
+GET - returns more detailed degree course data
+
+PUT, DELETE - this methods are only available for admin, PUT uses the same JSON as [degree_courses](#degree_courses)
 
 ### /new_subject
 POST method
@@ -180,7 +186,7 @@ ADMINS=4DERT,pablo
  - [x] account deleting
  - [ ] subjects editing
  - [ ] subjects deleting
- - [ ] degree course editing
- - [ ] degree course deleting
+ - [x] degree course editing
+ - [x] degree course deleting
  - [ ] add endpoint to change password
  - [ ] and more...

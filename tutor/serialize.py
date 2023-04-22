@@ -1,3 +1,5 @@
+from typing import Dict, Any, List
+
 import sqlalchemy
 from .models import Announcement, Subject, User, DegreeCourse
 from .database import get_degree_course_by_id, get_degree_course, get_user_by_id
@@ -104,3 +106,12 @@ def get_subjects():
 
 def get_degree_courses():
     return [dg.degree_course for dg in DegreeCourse.query.all()]
+
+
+def get_degree_course_details(dg_id: int) -> dict[str, list[Any] | Any] | None:
+    dg = DegreeCourse.query.filter(DegreeCourse.id == dg_id).first()
+    return {
+        "degree_course": dg.degree_course,
+        "subjects": [s.subject for s in dg.subjects],
+        "users": [u.username for u in dg.users]
+    }
