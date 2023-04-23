@@ -110,7 +110,7 @@ def get_subject_detail(subject_id: int):
         "subject": subject.subject,
         "degree_course": get_degree_course_by_id(subject.degree_course_id).degree_course,
         "semester": subject.semester,
-        "announcements": [a.announcements for a in subject.announcements]
+        "announcements": [a.id for a in subject.announcements]
     }
 
 
