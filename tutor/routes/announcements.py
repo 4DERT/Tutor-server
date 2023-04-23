@@ -40,7 +40,7 @@ def get_announcement(announcement_id):
 
 
 # Adding announcement
-@app.route("/new_announcement", methods=["POST"])
+@app.route("/announcements", methods=["POST"])
 def new_announcement():
     data = request.get_json(force=True)
 

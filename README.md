@@ -2,8 +2,9 @@
 
 # Enpoints
 #### / or /announcements
-GET, return all announcments
+GET, POST methods
 
+GET method returns all announcments
 You can filter announcements by adding GET parameters like:
 ```
 ?subject=matematyka
@@ -33,6 +34,24 @@ You can also sort by price or date using:
 ?date_sort=desc
 ```
 
+POST method
+```json
+{
+  "title": "Ucze jak robić równania różniczkowe",
+  "content": "fajny opis",
+  "price": 120,
+  "is_negotiable": false,
+  "degree_course": "informatyka",
+  "subject": "matematyka",
+  "semester": 4
+}
+```
+
+#### /announcements/*id*
+GET, PUT, DELETE methods
+
+You can edit announcement using PUT method (the same json as in [announcements](#or-announcements))
+
 #### /sign_up
 POST method
 ```json
@@ -59,26 +78,6 @@ user can be either an email or username
 
 ### /logout
 GET method
-
-
-#### /new_announcement
-POST method
-```json
-{
-  "title": "Ucze jak robić równania różniczkowe",
-  "content": "fajny opis",
-  "price": 120,
-  "is_negotiable": false,
-  "degree_course": "informatyka",
-  "subject": "matematyka",
-  "semester": 4
-}
-```
-
-#### /announcements/*id*
-GET, PUT, DELETE methods
-
-You can edit announcement using PUT method (the same json as in [new_announcement](#new_announcement))
 
 ### /my_account  
 GET, PUT, DELETE method
