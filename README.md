@@ -125,9 +125,27 @@ GET methods
 Returns base64 encoded image (png or jpg)
 
 ### /subjects
-GET method
+GET, POST method
 
 Returns all subjects
+
+POST - this methods are only available for admin
+
+To add subject use POST method with following JSON:
+```json
+{
+  "subject" : "matematyka",
+  "degree_course" : "informatyka",
+  "semester" : 1
+}
+```
+
+### /subjects/*degree_course*/*semester*/*subject*
+GET, PUT, DELETE methods
+
+GET - returns more detailed subject data
+
+PUT, DELETE - this methods are only available for admin, PUT uses the same JSON as [subjects](#subjects)
 
 ### /degree_courses
 GET, POST method
@@ -184,8 +202,8 @@ ADMINS=4DERT,pablo
  - [x] reviews deleting
  - [x] account editing
  - [x] account deleting
- - [ ] subjects editing
- - [ ] subjects deleting
+ - [x] subjects editing
+ - [x] subjects deleting
  - [x] degree course editing
  - [x] degree course deleting
  - [ ] add endpoint to change password

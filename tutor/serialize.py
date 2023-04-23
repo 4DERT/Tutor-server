@@ -104,6 +104,16 @@ def get_subjects():
         } for s in Subject.query.all()]
 
 
+def get_subject_detail(subject_id: int):
+    subject = Subject.query.filter(Subject.id == subject_id).first()
+    return {
+        "subject": subject.subject,
+        "degree_course": get_degree_course_by_id(subject.degree_course_id).degree_course,
+        "semester": subject.semester,
+        "announcements": [a.announcements for a in subject.announcements]
+    }
+
+
 def get_degree_courses():
     return [dg.degree_course for dg in DegreeCourse.query.all()]
 
