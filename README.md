@@ -97,6 +97,17 @@ To edit account use PUT method with following json:
 }
 ```
 
+### /my_account/password
+PUT method
+
+Allows to change passowrd
+```json
+{
+    "old_password": "qwerty",
+    "new_password": "password"
+}
+```
+
 ### /my_account/avatar
 GET, PUT, DELETE methods
 
@@ -205,5 +216,5 @@ ADMINS=4DERT,pablo
  - [x] subjects deleting
  - [x] degree course editing
  - [x] degree course deleting
- - [ ] add endpoint to change password
- - [ ] and more...
+ - [x] add endpoint to change password
+ - [ ] and more... ?

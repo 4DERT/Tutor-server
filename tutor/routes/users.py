@@ -4,7 +4,7 @@ from io import BytesIO
 
 from flask import jsonify, request
 
-from tutor import app, session, response
+from tutor import app, session, response, bcrypt
 from tutor.database import get_user_by_id, get_user_by_username, commit_database, delete_from_database
 from tutor.models import DegreeCourse
 from tutor.serialize import get_user_data
@@ -75,6 +75,35 @@ def dashboard():
     user.semester = data['semester']
 
     commit_database()
+    return response.SUCCESS
+
+
+@app.route("/my_account/password", methods=["PUT"])
+def change_password():
+    if 'user_id' not in session:
+        return response.UNAUTHORIZED
+
+    user_id = session['user_id']
+    user = get_user_by_id(user_id)
+
+    data = request.get_json(force=True)
+
+    # Checking input data
+    if 'old_password' not in data or 'new_password' not in data:
+        return response.BAD_REQUEST
+
+    # old password is not correct
+    if not bcrypt.check_password_hash(user.password, data['old_password']):
+        return response.CONFLICT
+
+    hashed_new_password = bcrypt.generate_password_hash(data['new_password']).decode('utf-8')
+
+    user.password = hashed_new_password
+    commit_database()
+
+    # Logout
+    session.pop('user_id', None)
+
     return response.SUCCESS
 
 
