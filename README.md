@@ -5,6 +5,7 @@
 GET, POST methods
 
 GET method returns all announcments
+
 You can filter announcements by adding GET parameters like:
 ```
 ?subject=matematyka
@@ -176,17 +177,6 @@ GET, PUT, DELETE method
 GET - returns more detailed degree course data
 
 PUT, DELETE - this methods are only available for admin, PUT uses the same JSON as [degree_courses](#degree_courses)
-
-### /new_subject
-POST method
-```json
-{
-  "subject": "matematyka",
-  "degree_course": "informatyka",
-  "semester": 1
-}
-```
-This method is only available for admin
 
 # Application settings
 You can configure an app secret key and admin usernames in `.env` file:
