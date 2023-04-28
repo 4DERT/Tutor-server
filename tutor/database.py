@@ -19,7 +19,7 @@ def delete_from_database(obj: Announcement | User | Subject | DegreeCourse | Rev
 
 
 def get_user(username_or_email: str, password: str) -> User | None:
-    if re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', username_or_email):
+    if check_email(username_or_email):
         user = db.session.query(User).filter(User.email == username_or_email).first()
     else:
         user = db.session.query(User).filter(User.username == username_or_email).first()
@@ -70,3 +70,17 @@ def get_review(reviewee: User, reviewer_id: int) -> Review | None:
             return rev
 
     return None
+
+
+def check_email(email: str) -> bool:
+    if re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b', email):
+        return True
+
+    return False
+
+
+def check_phone(phone_number: str) -> bool:
+    if re.fullmatch(r'^\d{9}$', phone_number):
+        return True
+
+    return False

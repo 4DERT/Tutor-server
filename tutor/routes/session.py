@@ -1,7 +1,7 @@
 from flask import request
 
 from tutor import app, bcrypt, session, response
-from tutor.database import get_user, insert_into_database
+from tutor.database import get_user, insert_into_database, check_email, check_phone
 from tutor.models import User
 
 
@@ -20,6 +20,14 @@ def sign_up():
     ]
     if any(conditions):
         return response.BAD_REQUEST
+
+    # Checking if email is valid
+    if not check_email(data['email']):
+        return response.CONFLICT
+
+    # Checking if phone number is valid
+    if not check_phone(data['phone']):
+        return response.CONFLICT
 
     # Checking if user exists
     if get_user(data['username'], data['password']) is not None:

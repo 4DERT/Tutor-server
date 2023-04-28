@@ -5,7 +5,8 @@ from io import BytesIO
 from flask import jsonify, request
 
 from tutor import app, session, response, bcrypt
-from tutor.database import get_user_by_id, get_user_by_username, commit_database, delete_from_database
+from tutor.database import get_user_by_id, get_user_by_username, commit_database, delete_from_database, check_email, \
+    check_phone
 from tutor.models import DegreeCourse
 from tutor.serialize import get_user_data
 
@@ -55,6 +56,14 @@ def dashboard():
     ]
     if any(conditions):
         return response.BAD_REQUEST
+
+    # Checking if email is valid
+    if not check_email(data['email']):
+        return response.CONFLICT
+
+    # Checking if phone number is valid
+    if not check_phone(data['phone']):
+        return response.CONFLICT
 
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
