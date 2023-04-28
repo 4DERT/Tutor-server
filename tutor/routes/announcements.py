@@ -1,7 +1,9 @@
+import re
+
 from flask import jsonify, request
 
 from tutor import app, session, response
-from tutor.database import insert_into_database, get_announcement_by_id, commit_database, delete_from_database
+from tutor.database import insert_into_database, get_announcement_by_id, commit_database, delete_from_database, get_user_by_id
 from tutor.models import Announcement, Subject, DegreeCourse
 from tutor.serialize import get_announcements
 
@@ -62,6 +64,11 @@ def new_announcement():
         return response.UNAUTHORIZED
 
     user_id = session['user_id']
+    user = get_user_by_id(user_id)
+
+    # Checking if user is a PRZ student
+    if not re.match(r'^\d{6}@stud\.prz\.edu\.pl$', user.email):
+        return response.UNAUTHORIZED
 
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()

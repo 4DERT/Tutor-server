@@ -47,6 +47,7 @@ POST method
   "semester": 4
 }
 ```
+Only users with prz collage email can add announcements!
 
 #### /announcements/*id*
 GET, PUT, DELETE methods
