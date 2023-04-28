@@ -184,6 +184,8 @@ You can configure an app secret key and admin usernames in `.env` file:
 ```.env
 SECRET_KEY="KEY"
 ADMINS=4DERT,pablo
+PORT=8080
+IS_DEBUG=True
 ```
 
 # To do
