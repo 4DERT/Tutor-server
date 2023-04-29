@@ -42,6 +42,10 @@ def get_user_by_username(username: str) -> User:
     return db.session.query(User).filter(User.username == username).first()
 
 
+def get_user_by_email(email: str) -> User | None:
+    return db.session.query(User).filter(User.email == email).first()
+
+
 def get_degree_course(degree_course: str) -> DegreeCourse | None:
     return db.session.query(DegreeCourse).filter(DegreeCourse.degree_course == degree_course).first()
 
