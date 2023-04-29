@@ -77,6 +77,9 @@ def get_user_data(user: User):
         "name": user.name,
         "surname": user.surname,
         "phone": user.phone,
+        "semester": user.semester,
+        "degree_course":
+            get_degree_course_by_id(user.degree_course_id).degree_course if user.degree_course_id is not None else None,
         "description": user.description,
         "announcements": [{
             'id': obj.id,

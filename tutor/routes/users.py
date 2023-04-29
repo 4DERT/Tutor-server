@@ -68,12 +68,15 @@ def dashboard():
 
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
-    if degree_course is None:
+    if degree_course is None and data['degree_course'] is not None:
         return response.CONFLICT
 
+    degree_course_id = degree_course.id if data['degree_course'] is not None else None
+
     # Checking if semester exists
-    if data['semester'] < 0 or data['semester'] > 7:
-        return response.CONFLICT
+    if data['semester'] is not None:
+        if data['semester'] < 1 or data['semester'] > 7:
+            return response.CONFLICT
 
     # Updating account
     user.email = data['email']
@@ -81,7 +84,7 @@ def dashboard():
     user.surname = data['surname']
     user.phone = data['phone']
     user.description = data['description']
-    user.degree_course_id = degree_course.id
+    user.degree_course_id = degree_course_id
     user.semester = data['semester']
 
     commit_database()

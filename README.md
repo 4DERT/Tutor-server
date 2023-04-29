@@ -97,6 +97,7 @@ To edit account use PUT method with following json:
     "degree_course": "informatyka"
 }
 ```
+degree_course, semester and phone can NULL. Make sure phone is an string value and semester is INT from 1 to 7.
 
 ### /my_account/password
 PUT method
