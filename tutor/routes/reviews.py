@@ -37,7 +37,7 @@ def add_review(username: str):
     review = data["review"] if "review" in data else None  # review is optional
 
     if int(rate) < 1 or int(rate) > 5:
-        return response.BAD_REQUEST
+        return response.NOT_VALID_RATE
 
     if request.method == 'PUT':
         if rev is None:

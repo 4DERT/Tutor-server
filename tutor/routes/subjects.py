@@ -38,12 +38,12 @@ def subjects():
     # Checking if degree_course not exists
     degree_course = get_degree_course(data['degree_course'])
     if degree_course is None:
-        return response.CONFLICT
+        return response.EXISTING_DEGREE_COURSE
 
-    # Checking if degree_course not exists
+    # Checking if subject not exists
     subject = get_subject(data['subject'], data['degree_course'], data['semester'])
     if subject is not None:
-        return response.CONFLICT
+        return response.EXISTING_SUBJECT
 
     # Inserting subject into db
     insert_into_database(Subject(subject=data['subject'],

@@ -34,7 +34,7 @@ def degree_courses():
     # Checking if degree_course not exists
     degree_course = data['degree_course']
     if get_degree_course(degree_course) is not None:
-        return response.CONFLICT
+        return response.EXISTING_DEGREE_COURSE
 
     # Inserting degree_course into database
     insert_into_database(DegreeCourse(degree_course=degree_course))
@@ -85,7 +85,7 @@ def degree_course_detail(dg_name: str):
     data = request.get_json(force=True)
 
     if 'degree_course' not in data:
-        return response.CONFLICT
+        return response.BAD_REQUEST
 
     dg.degree_course = data['degree_course']
     commit_database()

@@ -22,14 +22,14 @@ def sign_up():
 
     # Checking if email is valid
     if not check_email(data['email']):
-        return response.CONFLICT
+        return response.NOT_VALID_EMAIL
 
     # Checking if user exists
     if get_user(data['username'], data['password']) is not None:
-        return response.CONFLICT
+        return response.EXISTING_USERNAME
 
     if get_user_by_email(data['email']) is not None:
-        return response.CONFLICT
+        return response.EXISTING_EMAIL
 
     # hashing users password
     hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')

@@ -59,24 +59,24 @@ def dashboard():
 
     # Checking if email is valid
     if not check_email(data['email']):
-        return response.CONFLICT
+        return response.NOT_VALID_EMAIL
 
     # Checking if phone number is valid or null
     if data['phone'] is not None:
         if not check_phone(data['phone']):
-            return response.CONFLICT
+            return response.NOT_VALID_PHONE
 
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
     if degree_course is None and data['degree_course'] is not None:
-        return response.CONFLICT
+        return response.NOT_VALID_DEGREE_COURSE
 
     degree_course_id = degree_course.id if data['degree_course'] is not None else None
 
     # Checking if semester exists
     if data['semester'] is not None:
         if data['semester'] < 1 or data['semester'] > 7:
-            return response.CONFLICT
+            return response.NOT_VALID_SEMESTER
 
     # Updating account
     user.email = data['email']
@@ -107,7 +107,7 @@ def change_password():
 
     # old password is not correct
     if not bcrypt.check_password_hash(user.password, data['old_password']):
-        return response.CONFLICT
+        return response.NOT_VALID_PASSWORD
 
     hashed_new_password = bcrypt.generate_password_hash(data['new_password']).decode('utf-8')
 
@@ -170,12 +170,12 @@ def my_avatar():
         return response.SUCCESS
 
     if 'file' not in request.files:
-        return response.BAD_REQUEST
+        return response.MISSING_FILE
 
     pic = request.files['file']
 
     if not pic:
-        return response.BAD_REQUEST
+        return response.MISSING_FILE
 
     pic_stream = pic.stream.read()
 
@@ -183,11 +183,11 @@ def my_avatar():
     pil_img = Image.open(BytesIO(pic_stream))
 
     if pil_img.size[0] > 512 or pil_img.size[1] > 512:
-        return response.BAD_REQUEST
+        return response.FILE_TOO_BIG
 
     # Check image type
     if pil_img.format not in ["PNG", "JPEG"]:
-        return response.BAD_REQUEST
+        return response.FILE_FORMAT
 
     # PUT
     user.image_file = pic_stream

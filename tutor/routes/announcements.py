@@ -68,19 +68,19 @@ def new_announcement():
 
     # Checking if user is a PRZ student
     if not re.match(r'^\d{6}@stud\.prz\.edu\.pl$', user.email):
-        return response.UNAUTHORIZED
+        return response.NOT_STUDENT
 
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
     if degree_course is None:
-        return response.CONFLICT
+        return response.NOT_VALID_DEGREE_COURSE
 
     # Checking if subject exists
     subject = Subject.query.filter_by(subject=data['subject'],
                                       degree_course_id=degree_course.id,
                                       semester=data['semester']).first()
     if subject is None:
-        return response.CONFLICT
+        return response.NOT_VALID_SUBJECT
 
     # Inserting announcement into db
     announcement = Announcement(
@@ -137,14 +137,14 @@ def update_announcement(announcement_id):
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()
     if degree_course is None:
-        return response.CONFLICT
+        return response.NOT_VALID_DEGREE_COURSE
 
     # Checking if subject exists
     subject = Subject.query.filter_by(subject=data['subject'],
                                       degree_course_id=degree_course.id,
                                       semester=data['semester']).first()
     if subject is None:
-        return response.CONFLICT
+        return response.NOT_VALID_SUBJECT
 
     # Updating announcement
     announcement.title = data['title']
