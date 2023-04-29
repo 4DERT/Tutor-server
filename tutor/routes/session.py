@@ -15,18 +15,13 @@ def sign_up():
         'email' not in data,
         'password' not in data,
         'name' not in data,
-        'surname' not in data,
-        'phone' not in data,
+        'surname' not in data
     ]
     if any(conditions):
         return response.BAD_REQUEST
 
     # Checking if email is valid
     if not check_email(data['email']):
-        return response.CONFLICT
-
-    # Checking if phone number is valid
-    if not check_phone(data['phone']):
         return response.CONFLICT
 
     # Checking if user exists
@@ -42,8 +37,7 @@ def sign_up():
         email=data['email'],
         password=hashed_password,
         name=data['name'],
-        surname=data['surname'],
-        phone=data['phone']
+        surname=data['surname']
     )
     insert_into_database(user)
 

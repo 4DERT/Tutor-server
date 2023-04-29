@@ -33,7 +33,7 @@ class User(db.Model):
     image_file = db.Column(db.BLOB, nullable=True)
     name = db.Column(db.String(100), nullable=False)
     surname = db.Column(db.String(100), nullable=False)
-    phone = db.Column(db.String(9), unique=True, nullable=False)
+    phone = db.Column(db.String(9), unique=True, nullable=True)
     description = db.Column(db.String(1000), nullable=False, default="")
     degree_course_id = db.Column(db.Integer, db.ForeignKey('degree_course.id'), nullable=True)
     semester = db.Column(db.Integer, nullable=True)

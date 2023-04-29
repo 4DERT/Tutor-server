@@ -61,9 +61,10 @@ def dashboard():
     if not check_email(data['email']):
         return response.CONFLICT
 
-    # Checking if phone number is valid
-    if not check_phone(data['phone']):
-        return response.CONFLICT
+    # Checking if phone number is valid or null
+    if data['phone'] is not None:
+        if not check_phone(data['phone']):
+            return response.CONFLICT
 
     # Checking if degree_course exists
     degree_course = DegreeCourse.query.filter_by(degree_course=data['degree_course']).first()

@@ -62,8 +62,7 @@ POST method
     "email": "pjoter12@demo.com",
     "password": "qwerty",
     "name": "Piotr",
-    "surname": "Kowalski",
-    "phone": "213742069"
+    "surname": "Kowalski"
 }
 ```
 
