@@ -11,10 +11,11 @@ SECRET_KEY = getenv("SECRET_KEY", "FIND_BETTER_KEY")
 ADMINS = getenv("ADMINS", "").split(',')
 PORT = getenv("PORT", "8080")
 IS_DEBUG = getenv("IS_DEBUG", "False").lower() in ('true', '1')
+DATABASE_URI = getenv("DATABASE_URI", "sqlite:///db.sqlite3")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)

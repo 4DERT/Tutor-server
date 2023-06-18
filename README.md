@@ -186,6 +186,7 @@ SECRET_KEY="KEY"
 ADMINS=4DERT,pablo
 PORT=8080
 IS_DEBUG=True
+DATABASE_URI="sqlite:///db.sqlite3"
 ```
 
 # To do

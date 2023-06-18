@@ -30,7 +30,7 @@ class User(db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    image_file = db.Column(db.BLOB, nullable=True)
+    image_file = db.Column(db.LargeBinary, nullable=True)
     name = db.Column(db.String(100), nullable=False)
     surname = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(9), unique=True, nullable=True)
